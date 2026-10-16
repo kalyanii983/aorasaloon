@@ -5,7 +5,7 @@ export const SITE = {
   phone: '+91 96861 35502', tel: 'tel:+919686135502', wa: '919686135502',
   address: 'No. 102, Thirumenahalli, Markandaiah Nagar, Yelahanka, Bengaluru – 560064', // CONFIRM spelling
   landmark: 'Opposite Antalea Homes / Villas', // CONFIRM spelling
-  hours: '10:00 AM – 8:30 PM, Monday to Sunday', // CONFIRM (brief also says 9 AM–9 PM)
+  hours: '9:00 AM – 9:00 PM, Monday to Sunday',
   instagram: '', // add when supplied
   mapQuery: 'Aora Luxe Thirumenahalli Yelahanka Bengaluru 560064', // CONFIRM pin
 }

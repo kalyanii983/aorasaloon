@@ -4,8 +4,31 @@ import { SITE } from '../config'
 
 export function useSeo(title, desc) {
   useEffect(() => {
-    document.title = `${title} | Aora Luxe`
-    const m = document.querySelector('meta[name=description]'); if (m) m.content = desc
+    const fullTitle = `${title} | Aora Luxe`
+    document.title = fullTitle
+
+    const setMeta = (selector, attr, val) => {
+      let el = document.querySelector(selector)
+      if (!el) {
+        el = document.createElement('meta')
+        if (selector.startsWith('meta[name=')) {
+          el.setAttribute('name', selector.match(/name="?([^"\]]+)"?/)[1])
+        } else if (selector.startsWith('meta[property=')) {
+          el.setAttribute('property', selector.match(/property="?([^"\]]+)"?/)[1])
+        }
+        document.head.appendChild(el)
+      }
+      el.setAttribute(attr, val)
+    }
+
+    if (desc) {
+      setMeta('meta[name="description"]', 'content', desc)
+      setMeta('meta[property="og:description"]', 'content', desc)
+      setMeta('meta[name="twitter:description"]', 'content', desc)
+    }
+    setMeta('meta[property="og:title"]', 'content', fullTitle)
+    setMeta('meta[name="twitter:title"]', 'content', fullTitle)
+
     let c = document.querySelector('link[rel=canonical]')
     if (!c) { c = document.createElement('link'); c.rel = 'canonical'; document.head.appendChild(c) }
     c.href = SITE.domain + window.location.pathname
@@ -53,9 +76,16 @@ export function Photo({ name, src, alt, className = '', priority = false }) {
   )
 }
 
-export const Logo = () => (
-  <span className="flex items-center gap-3">
-    <svg width="34" height="34" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="28" fill="none" stroke="#E6F078" strokeWidth="2"/><path d="M20 46 32 16l12 30M25 36h14" fill="none" stroke="#E6F078" strokeWidth="3"/></svg>
-    <span className="font-serif text-xl tracking-[0.25em] text-lime">AORA LUXE</span>
-  </span>
-)
+export const Logo = ({ size = 'normal' }) => {
+  const isLarge = size === 'large'
+  return (
+    <span className="flex items-center gap-3.5">
+      <img
+        src="/logo1.jpeg"
+        alt="Aora Luxe Logo"
+        className="h-12 w-12 sm:h-14 sm:w-14 rounded-full object-cover ring-2 ring-lime/40 shadow-md transition-transform duration-300 hover:scale-105"
+      />
+      <span className="font-serif text-2xl sm:text-[1.7rem] tracking-[0.22em] text-lime font-medium">AORA LUXE</span>
+    </span>
+  )
+}

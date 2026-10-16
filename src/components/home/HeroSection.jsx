@@ -15,7 +15,7 @@ export default function HeroSection({ heroRef, scrollAnim, photoY, wordY, heroFa
           <img
             src="/heroimg.png"
             alt="Stylist working with a client at Aora Luxe salon"
-            fetchPriority="high"
+            fetchpriority="high"
             decoding="async"
             className="h-full w-full object-cover object-[78%_18%] sm:object-[80%_22%] lg:object-[88%_30%]"
           />
@@ -61,7 +61,7 @@ export default function HeroSection({ heroRef, scrollAnim, photoY, wordY, heroFa
           </span>
           <span className="label hidden text-[10px] tracking-[0.22em] text-ivory/80 min-[420px]:inline">Book your visit</span>
           <span className="truncate font-serif text-base text-ivory">Enquire on WhatsApp</span>
-          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-champagne text-obsidian transition-transform duration-300 group-hover:rotate-45"><Arrow /></span>
+          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-lime text-obsidian transition-transform duration-300 group-hover:rotate-45"><Arrow /></span>
         </motion.a>
 
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1 }} className="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-sm">

@@ -14,7 +14,7 @@ export default function VisitSection() {
             <p><a className="text-ivory underline decoration-champagne/60 underline-offset-4 hover:text-champagne" href={SITE.tel}>{SITE.phone}</a></p>
           </address>
           <div className="mt-8 flex flex-wrap gap-3">
-            <a className="btn rounded-full bg-champagne text-obsidian transition-colors hover:bg-ivory" href={directions} target="_blank" rel="noreferrer">Get Directions</a>
+            <a className="btn rounded-full bg-gradient-to-r from-[#C29B48] via-[#E8C87A] to-[#C29B48] text-obsidian font-semibold transition-all hover:opacity-95 shadow-md shadow-lime/20" href={directions} target="_blank" rel="noreferrer">Get Directions</a>
             <a className="btn rounded-full border border-ivory/25 text-ivory transition-colors hover:border-champagne hover:text-champagne" href={waLink()} target="_blank" rel="noreferrer">WhatsApp</a>
           </div>
         </Reveal>

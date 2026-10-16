@@ -153,9 +153,9 @@ export const Icon = ({ name }) => (
 export function PillButton({ href, to, children, variant = 'gold', external = true }) {
   const base = 'group relative inline-flex items-center gap-3 overflow-hidden rounded-full py-2 pl-6 pr-2 text-sm font-medium transition-colors'
   const styles = variant === 'gold'
-    ? 'bg-champagne text-obsidian hover:bg-ivory'
-    : 'border border-ivory/25 text-ivory hover:border-champagne hover:text-champagne'
-  const knob = variant === 'gold' ? 'bg-obsidian text-champagne' : 'bg-champagne text-obsidian'
+    ? 'bg-gradient-to-r from-[#C29B48] via-[#E8C87A] to-[#C29B48] text-obsidian font-semibold hover:opacity-95 shadow-md shadow-lime/20'
+    : 'border border-ivory/25 text-ivory hover:border-lime hover:text-lime'
+  const knob = variant === 'gold' ? 'bg-obsidian text-lime' : 'bg-lime text-obsidian'
   const inner = (
     <>
       <span aria-hidden="true" className="pointer-events-none absolute inset-y-0 -left-1/2 w-1/3 -skew-x-12 bg-white/40 opacity-0 blur-sm transition-all duration-700 ease-out group-hover:left-[130%] group-hover:opacity-100" />

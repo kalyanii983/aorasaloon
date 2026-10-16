@@ -29,7 +29,7 @@ export default function Home() {
   const heroLift = useTransform(scrollYProgress, [0, 1], ['0%', scrollAnim ? '-8%' : '0%'])
 
   return (
-    <div className="overflow-x-clip">
+    <div className="relative overflow-x-clip">
       {scrollAnim && <ScrollProgress />}
 
       {/* ───────── HERO ───────── */}

@@ -4,6 +4,6 @@ body{@apply bg-ivory text-obsidian font-sans antialiased}
 h1,h2,h3{@apply font-serif font-medium leading-tight}
 .label{@apply text-[11px] uppercase tracking-[0.3em]}
 .btn{@apply inline-flex items-center justify-center px-7 py-3.5 text-xs uppercase tracking-[0.2em] transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lime}
-.btn-gold{@apply bg-lime text-obsidian hover:bg-champagne}
-.btn-line{@apply border border-champagne text-champagne hover:bg-champagne hover:text-obsidian}
+.btn-gold{@apply bg-gradient-to-r from-[#C29B48] via-[#E8C87A] to-[#C29B48] text-obsidian font-semibold hover:from-[#E8C87A] hover:to-[#C29B48] hover:shadow-lg hover:shadow-lime/30 active:scale-95}
+.btn-line{@apply border border-lime text-lime hover:bg-lime hover:text-obsidian active:scale-95}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}

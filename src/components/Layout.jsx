@@ -19,7 +19,7 @@ function Header() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-40">
-      <div className="bg-lime text-obsidian text-center label py-2">Premium unisex salon · Yelahanka, Bengaluru</div>
+      <div className="bg-gradient-to-r from-[#B99547] via-[#F2D78E] to-[#B99547] text-obsidian text-center label py-2 font-bold tracking-[0.25em] shadow-sm">Premium unisex salon · Yelahanka, Bengaluru</div>
       <div className={`transition-colors duration-500 ${solid || open ? 'bg-obsidian' : 'bg-gradient-to-b from-obsidian/80 to-transparent'}`}>
         <nav aria-label="Main" className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4">
           <Link to="/" aria-label="Aora Luxe home" onClick={handleNavClick}><Logo /></Link>
@@ -229,7 +229,7 @@ export default function Layout() {
       <main><Outlet /></main>
       <Footer />
       <a href={waLink()} target="_blank" rel="noreferrer" aria-label="Chat on WhatsApp"
-        className="fixed bottom-5 right-5 z-40 grid h-14 w-14 place-items-center rounded-full bg-lime text-obsidian shadow-lg hover:bg-champagne"><MessageCircle /></a>
+        className="fixed bottom-5 right-5 z-40 grid h-14 w-14 place-items-center rounded-full bg-gradient-to-tr from-[#B5934C] via-[#E8C87A] to-[#D7B56F] text-obsidian shadow-xl shadow-lime/30 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-lime/50"><MessageCircle /></a>
     </>
   )
 }

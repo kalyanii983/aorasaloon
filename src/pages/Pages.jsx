@@ -7,8 +7,14 @@ import { Photo, useSeo } from '../components/ui'
 import AboutContent from '../components/AboutContent'
 import ServicesContent from '../components/ServicesContent'
 
-const Hero = ({ label, title, children, className = "pb-16 pt-44" }) => (
-  <section className={`bg-obsidian px-5 ${className}`}><div className="mx-auto max-w-7xl"><p className="label text-champagne">{label}</p><h1 className="mt-3 max-w-3xl text-5xl text-ivory sm:text-6xl">{title}</h1>{children}</div></section>
+const Hero = ({ label, title, children, className = "pb-12 pt-32 sm:pt-40 lg:pt-44 sm:pb-16" }) => (
+  <section className={`bg-obsidian px-5 ${className}`}>
+    <div className="mx-auto max-w-7xl">
+      <p className="label text-champagne">{label}</p>
+      <h1 className="mt-3 max-w-3xl text-3xl sm:text-5xl lg:text-6xl text-ivory">{title}</h1>
+      {children}
+    </div>
+  </section>
 )
 
 export function About() {
@@ -52,11 +58,11 @@ const GALLERY_ITEMS = [
   { id: 'g4', src: '/g4.jpeg', title: 'Luxe Wavy Balayage Finish', category: 'Hair', tag: 'Hair Colour' },
   { id: 'g5', src: '/g5.jpeg', title: 'Golden Glam Waves', category: 'Hair', tag: 'Blowout & Styling' },
   { id: 'g6', src: '/g6.jpeg', title: 'Textured Volume Haircut', category: 'Hair', tag: 'Haircut' },
-  { id: 'g7', src: '/g7.jpeg', title: 'Gloss Treatment & Silk Press', category: 'Hair', tag: 'Hair Treatment' },
-  { id: 'g8', src: '/g8.jpeg', title: 'Mocha Radiance Highlights', category: 'Hair', tag: 'Colour & Styling' },
-  { id: 'g9', src: '/g9.jpeg', title: 'Glossy Layered Brunette', category: 'Hair', tag: 'Haircut & Finish' },
+  { id: 'g7', src: '/g7.jpeg', title: 'Gloss Treatment & Silk Press', category: 'Hair', tag: 'Bridal Makeup' },
+  { id: 'g8', src: '/g8.jpeg', title: 'Mocha Radiance Highlights', category: 'Hair', tag: 'Bridal Makeup' },
+  { id: 'g9', src: '/g9.jpeg', title: 'Glossy Layered Brunette', category: 'Hair', tag: 'Global Hair Color Transformation' },
   { id: 'g10', src: '/g10.jpeg', title: 'Precision Cut & Face-Framing', category: 'Hair', tag: 'Precision Cut' },
-  { id: 'g11', src: '/g11.jpeg', title: 'Champagne Blonde Balayage', category: 'Hair', tag: 'Balayage' },
+  { id: 'g11', src: '/g11.jpeg', title: 'Champagne Blonde Balayage', category: 'Hair', tag: 'Party Makeup' },
   { id: 'g12', src: '/g12.jpeg', title: 'Deep Burgundy Velvet Tone', category: 'Hair', tag: 'Vibrant Colour' },
   { id: 'g13', src: '/g13.jpg', title: 'Hydrating Gloss & Frizz Control (Before/After)', category: 'Hair', tag: 'Gloss Treatment' },
   { id: 'g14', src: '/g14.jpg', title: 'Keratin Smoothening Transformation (Before/After)', category: 'Hair', tag: 'Keratin & Smoothing' },

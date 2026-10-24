@@ -76,13 +76,22 @@ export default function AboutSection() {
                   <textPath href="#about-badge-path" textLength="228" lengthAdjust="spacing">Aora Luxe · Hair · Beauty · Nails · Makeup ·</textPath>
                 </text>
               </motion.svg>
-              <span className="font-serif text-3xl italic text-yellow-400">A</span>
+              <img
+                src="/logo1.jpeg"
+                alt="Aora Luxe Logo"
+                className="relative z-10 h-12 w-12 sm:h-14 sm:w-14 rounded-full object-cover ring-2 ring-lime/40 shadow-md transition-transform duration-300 hover:scale-105"
+              />
             </motion.div>
           </div>
         </Reveal>
 
         <Reveal delay={0.15}>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
+            <img
+              src="/logo1.jpeg"
+              alt="Aora Luxe Logo"
+              className="h-6 w-6 rounded-full object-cover ring-1 ring-lime/40 shadow-sm"
+            />
             <p className="label text-[11px] tracking-[0.28em] text-champagne">(01) About Aora Luxe</p>
             <motion.span initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} viewport={{ once: true }} transition={{ duration: 1, delay: 0.4, ease: EASE }} style={{ originX: 0 }} className="h-px w-12 bg-champagne/70" />
           </div>

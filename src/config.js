@@ -13,10 +13,113 @@ export const waLink = (msg = 'Hello Aora Luxe, I would like to enquire about you
   `https://wa.me/${SITE.wa}?text=${encodeURIComponent(msg)}`
 export const directions = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(SITE.mapQuery)}`
 
-// CONFIRM the service list with the client. Drop photos in /public/images/<img>.jpg
+// Full service list – each service gets its own detail page at /services/<slug>
+// Drop service photos in /public/services/<slug>.jpg  (or .png / .webp)
 export const SERVICES = [
-  { slug:'hair', title:'Hair Styling & Colour', img:'hair', blurb:'Cuts, styling, colour and treatments shaped around you.', points:['Haircuts and styling','Hair colouring','Hair treatments','Unisex grooming'] },
-  { slug:'beauty', title:'Beauty & Skincare', img:'beauty', blurb:'Restorative beauty care for a fresh, polished finish.', points:['Skincare services','Grooming and finishing touches'] },
-  { slug:'nail-art', title:'Nail Art & Care', img:'nails', blurb:'Detailed nail artistry from understated to statement.', points:['Nail art','Nail care'] },
-  { slug:'makeup', title:'Makeup', img:'makeup', blurb:'Makeup tailored to your look and your occasion.', points:['Occasion makeup','Everyday looks'] },
+  {
+    slug: 'hair',
+    title: 'Hair Services',
+    img: 'hair',
+    blurb: 'From precision cuts to global colour transformations — every hair service is shaped around your texture, face and lifestyle.',
+    points: [
+      'Haircut for Men & Women',
+      'Hair Styling & Blow Dry',
+      'Hair Wash & Conditioning',
+      'Hair Spa & Deep Conditioning',
+      'Hair Smoothening',
+      'Keratin Treatment',
+      'Hair Straightening',
+      'Hair Rebonding',
+      'Hair Colouring & Global Colour',
+      'Root Touch-Up',
+      'Highlights & Balayage',
+      'Hair Botox Treatment',
+    ],
+  },
+  {
+    slug: 'mens-grooming',
+    title: "Men's Grooming",
+    img: 'mens',
+    blurb: 'Sharp cuts, clean fades and tailored grooming — designed for the modern man who values precision.',
+    points: [
+      "Men's Haircut",
+      'Beard Trimming & Styling',
+      'Shaving',
+      'Hair Colour',
+      'Hair Spa',
+      'Facial & Cleanup',
+      'Head Massage',
+    ],
+  },
+  {
+    slug: 'skin-care',
+    title: 'Skin Care & Facial',
+    img: 'beauty',
+    blurb: 'Radiant, healthy skin starts here. Our facials and treatments are customised to your skin type for visible results.',
+    points: [
+      'Classic Facial',
+      'Premium & Luxury Facial',
+      'Hydrating Facial',
+      'Anti-Ageing Facial',
+      'Cleanup',
+      'Detan Treatment',
+      'Face Bleach',
+      'Face & Neck Polishing',
+    ],
+  },
+  {
+    slug: 'nail-services',
+    title: 'Nail Services',
+    img: 'nails',
+    blurb: 'From classic manicures to intricate nail art — express your style down to the fingertips.',
+    points: [
+      'Manicure',
+      'Pedicure',
+      'Gel Nail Polish',
+      'Nail Extensions',
+      'Nail Art',
+      'Nail Removal',
+    ],
+  },
+  {
+    slug: 'makeup-bridal',
+    title: 'Makeup & Bridal',
+    img: 'makeup',
+    blurb: 'Flawless makeup for every occasion — from soft party glam to breathtaking bridal looks that last all day.',
+    points: [
+      'Party Makeup',
+      'Engagement Makeup',
+      'Bridal Makeup',
+      'Reception Makeup',
+      'Hairstyling for Special Occasions',
+      'Saree Draping',
+    ],
+  },
+  {
+    slug: 'waxing-threading',
+    title: 'Waxing & Threading',
+    img: 'waxing',
+    blurb: 'Smooth, hair-free skin with gentle techniques — because comfort and hygiene are never negotiable.',
+    points: [
+      'Full Body Waxing',
+      'Rica Wax',
+      'Arms & Legs Waxing',
+      'Underarm Waxing',
+      'Full Face Waxing',
+      'Eyebrow Threading',
+      'Upper Lip & Chin Threading',
+    ],
+  },
+  {
+    slug: 'massage-relaxation',
+    title: 'Massage & Relaxation',
+    img: 'massage',
+    blurb: 'Unwind with therapeutic massages designed to melt away stress and leave you feeling completely renewed.',
+    points: [
+      'Head Massage',
+      'Hair Oil Massage',
+      'Neck & Shoulder Massage',
+      'Relaxation Treatments',
+    ],
+  },
 ]

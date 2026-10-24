@@ -46,9 +46,31 @@ export const REVIEWS = [
 ]
 export const AUTOPLAY = 6500
 
-/* Service images in /public */
-export const SERVICE_IMAGES = { hair: '/hair.png', nail: '/nail.png', nails: '/nail.png', beauty: '/beauty.png', skin: '/beauty.png', makeup: '/makeup.png' }
+/* Service images in /public — add your images at these paths */
+export const SERVICE_IMAGES = {
+  hair: '/hair.png',
+  mens: '/services/mens-grooming.jpg',
+  'mens-grooming': '/services/mens-grooming.jpg',
+  grooming: '/services/mens-grooming.jpg',
+  groomingmen: '/services/mens-grooming.jpg',
+  nail: '/nail.png',
+  nails: '/nail.png',
+  'nail-services': '/nail.png',
+  beauty: '/beauty.png',
+  skin: '/beauty.png',
+  'skin-care': '/beauty.png',
+  makeup: '/makeup.png',
+  bridal: '/makeup.png',
+  'makeup-bridal': '/makeup.png',
+  waxing: '/services/waxing-threading.jpg',
+  'waxing-threading': '/services/waxing-threading.jpg',
+  threading: '/services/waxing-threading.jpg',
+  massage: '/services/massage-relaxation.jpg',
+  'massage-relaxation': '/services/massage-relaxation.jpg',
+}
 export const imageFor = (s) => {
+  /* Direct slug match first */
+  if (s.slug && SERVICE_IMAGES[s.slug]) return SERVICE_IMAGES[s.slug]
   const keys = [s.img, s.slug, s.title].filter(Boolean).map((x) => String(x).toLowerCase())
   for (const k of keys) {
     for (const name of Object.keys(SERVICE_IMAGES)) if (k.includes(name)) return SERVICE_IMAGES[name]

@@ -9,7 +9,7 @@ export default function HeroSection({ heroRef, scrollAnim, photoY, wordY, heroFa
     <section ref={heroRef} className="relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-obsidian">
       <motion.div
         style={{ y: photoY }}
-        className="absolute -z-10 inset-x-0 -top-[4%] h-[62svh] sm:h-[66svh] lg:inset-y-0 lg:left-auto lg:right-0 lg:top-[-4%] lg:h-[108%] lg:w-[64%] xl:w-[60%]"
+        className="absolute -z-10 inset-0 h-full w-full lg:inset-y-0 lg:left-auto lg:right-0 lg:top-[-4%] lg:h-[108%] lg:w-[64%] xl:w-[60%]"
       >
         <motion.div initial={{ scale: 1.08, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 1.6, ease: EASE }} className="h-full w-full">
           <img
@@ -22,20 +22,20 @@ export default function HeroSection({ heroRef, scrollAnim, photoY, wordY, heroFa
         </motion.div>
       </motion.div>
 
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-obsidian/40 via-transparent via-[28%] to-obsidian to-[66%] lg:hidden" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-t from-obsidian via-obsidian/85 to-obsidian/50 lg:hidden" />
       <div className="absolute inset-0 -z-10 hidden bg-gradient-to-r from-obsidian from-[30%] via-obsidian/50 via-[45%] to-transparent to-[68%] lg:block" />
       <div className="absolute inset-0 -z-10 hidden bg-gradient-to-t from-obsidian/80 via-transparent to-obsidian/40 lg:block" />
 
       <motion.div
         style={{ opacity: heroFade, y: heroLift }}
-        className="relative mx-auto flex w-full max-w-[1500px] flex-1 flex-col justify-end px-5 pb-28 pt-[50svh] sm:px-8 sm:pb-32 sm:pt-[56svh] lg:justify-center lg:px-14 lg:pb-56 lg:pt-36"
+        className="relative mx-auto flex w-full max-w-[1500px] flex-1 flex-col justify-center px-5 pt-32 pb-16 sm:px-8 sm:pt-36 sm:pb-24 lg:justify-center lg:px-14 lg:pb-36 lg:pt-36"
       >
         <motion.div initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.1 }} className="flex items-center gap-4">
           <span className="label text-[10px] tracking-[0.24em] text-ivory sm:text-[11px] sm:tracking-[0.28em]">Hair · Beauty · Nails · Makeup</span>
           <motion.span initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: 1, delay: 0.5, ease: EASE }} style={{ originX: 0 }} className="hidden h-px w-10 bg-champagne sm:block" />
         </motion.div>
 
-        <h1 className="mt-4 max-w-[14ch] font-serif text-[clamp(2.5rem,10vw,7.5rem)] font-medium leading-[1] tracking-tight text-ivory sm:mt-6 lg:mt-7 lg:max-w-[13ch] lg:text-[clamp(3.5rem,7.2vw,7.5rem)]">
+        <h1 className="mt-4 max-w-[14ch] font-serif text-4xl sm:text-5xl md:text-6xl font-medium leading-[1.05] tracking-tight text-ivory sm:mt-6 lg:mt-7 lg:max-w-[13ch] lg:text-[clamp(3.5rem,7.2vw,7.5rem)]">
           {HEADLINE.map((l, i) => (
             <Line key={l} i={i} accent={i === HEADLINE.length - 1}>{l}</Line>
           ))}
@@ -78,7 +78,7 @@ export default function HeroSection({ heroRef, scrollAnim, photoY, wordY, heroFa
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 bottom-0 translate-y-[14%] select-none px-[2vw]"
       >
-        <p className="whitespace-nowrap text-center font-serif text-[19vw] font-medium uppercase leading-[0.8] tracking-[-0.02em] text-ivory/90 sm:text-[15.5vw]">Aora Luxe</p>
+        <p className="whitespace-nowrap text-center font-serif text-[19vw] font-medium uppercase leading-[0.8] tracking-[-0.02em] text-ivory/[0.06] sm:text-[15.5vw]">Aora Luxe</p>
       </motion.div>
     </section>
   )

@@ -1,52 +1,46 @@
 import { createContext, useContext, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { MotionConfig, motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
+import { MessageCircle } from 'lucide-react'
 import { SERVICES, waLink } from '../config'
 import { Photo, Reveal } from './ui'
 
 const EASE = [0.22, 1, 0.36, 1]
 const VIEWPORT = { once: true, margin: '-80px' }
 
-/* Height (px) of your fixed site header. The sticky service nav sits right below it. */
-const STICKY_TOP = 64
+/* Height (px) of your fixed site header (top banner 32px + nav 68px). The sticky service nav sits right below it. */
+const STICKY_TOP = 100
 
 /* ---------- Images (files live in /public) ----------
-      - `main`  : the single image used for services that have one card.
-      - `pair`  : services that get TWO cards (women + men).
-      If a pair file does not exist yet, that card falls back to `main`. */
+      Drop a service image at  /public/services/<slug>.jpg
+      or use the fallbacks below. If no file exists you get a
+      gradient placeholder with the service name. */
 const MEDIA = {
-    hair: {
-        main: '/hair.png',
-        pair: [
-            { label: 'For women', src: '/hair.png' },
-            { label: 'For men', src: 'https://i.pinimg.com/736x/1a/4f/26/1a4f2642ee1d58a7dd7583e6c9ad1a86.jpg' },
-        ],
-    },
-    beauty: {
-        main: '/beauty.png',
-        pair: [
-            { label: 'For women', src: '/beauty.png' },
-            { label: 'For men', src: 'https://i.pinimg.com/1200x/d5/42/e3/d542e36a5630e84bcc7f0214474247e3.jpg' },
-        ],
-    },
-    nail: { main: '/nail.png' },
-    makeup: { main: '/makeup.png' },
+    hair:       { main: '/hair.png' },
+    'mens-grooming': { main: '/services/mens-grooming.jpg' },
+    groomingmen: { main: '/services/mens-grooming.jpg' },
+    'skin-care': { main: '/beauty.png' },
+    'nail-services': { main: '/nail.png' },
+    'makeup-bridal': { main: '/makeup.png' },
+    'waxing-threading': { main: '/services/waxing-threading.jpg' },
+    threading: { main: '/services/waxing-threading.jpg' },
+    'massage-relaxation': { main: '/services/massage-relaxation.jpg' },
 }
 
 function mediaFor(s) {
+    if (MEDIA[s.slug]) return MEDIA[s.slug]
     const key = `${s.img || ''} ${s.slug || ''} ${s.title || ''}`.toLowerCase()
     if (key.includes('hair')) return MEDIA.hair
-    if (key.includes('beauty') || key.includes('skin')) return MEDIA.beauty
-    if (key.includes('nail')) return MEDIA.nail
-    if (key.includes('makeup') || key.includes('make-up')) return MEDIA.makeup
+    if (key.includes('massage') || key.includes('relaxation')) return MEDIA['massage-relaxation']
+    if (key.includes('beauty') || key.includes('skin')) return MEDIA['skin-care']
+    if (key.includes('nail')) return MEDIA['nail-services']
+    if (key.includes('makeup') || key.includes('bridal')) return MEDIA['makeup-bridal']
+    if (key.includes('mens') || key.includes('grooming')) return MEDIA['mens-grooming']
+    if (key.includes('wax') || key.includes('thread')) return MEDIA['waxing-threading']
     return null
 }
 
-const ACCENT_PHOTOS = ['interior', 'feature', 'beauty', 'hair']
-
-/* ---------- Desktop-only animation switch ----------
-   Animations run only on screens >= 1024px and when the user has not asked
-   for reduced motion. Everything else renders static. */
+/* ---------- Desktop-only animation switch ---------- */
 const AnimCtx = createContext(false)
 const useAnimate = () => useContext(AnimCtx)
 
@@ -62,14 +56,14 @@ function useIsDesktop() {
     return desktop
 }
 
-/* ---------- Animation variants (used on desktop only) ---------- */
+/* ---------- Animation variants ---------- */
 const group = { hidden: {}, show: { transition: { staggerChildren: 0.12 } } }
 const item = {
     hidden: { opacity: 0, y: 28 },
     show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: EASE } },
 }
 
-/* Real <img> that falls back to another file if its own file is missing */
+/* Real <img> with fallback */
 function Pic({ src, fallback, alt, position = 'center' }) {
     const [url, setUrl] = useState(src)
     useEffect(() => setUrl(src), [src])
@@ -87,7 +81,6 @@ function Pic({ src, fallback, alt, position = 'center' }) {
     )
 }
 
-/* The actual picture (real image or placeholder) with a gentle hover zoom on desktop */
 function Media({ name, src, fallback, alt, position }) {
     return (
         <div className="h-full w-full transition-transform duration-700 ease-out lg:group-hover:scale-105">
@@ -100,7 +93,23 @@ function Media({ name, src, fallback, alt, position }) {
     )
 }
 
-/* Mobile / tablet: plain frame, no motion at all */
+/* ---------- Image placeholder banner ----------
+   Shows when no real image exists. Gives the client a clear
+   "drop your image here" zone. */
+function ImagePlaceholder({ s, className = '' }) {
+    return (
+        <div className={`relative flex items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed border-champagne/30 bg-gradient-to-br from-charcoal via-obsidian to-charcoal ${className}`}>
+            <div aria-hidden className="pointer-events-none absolute inset-0 opacity-10 bg-[repeating-linear-gradient(45deg,transparent,transparent_12px,rgba(212,185,120,0.15)_12px,rgba(212,185,120,0.15)_14px)]" />
+            <div className="relative z-10 flex flex-col items-center gap-3 px-6 py-10 text-center">
+                <span className="grid h-14 w-14 place-items-center rounded-full border border-champagne/30 bg-champagne/10 text-champagne text-2xl">📷</span>
+                <p className="font-serif text-lg text-champagne">{s.title}</p>
+                <p className="text-xs text-ivory/50">Add your service image here</p>
+            </div>
+        </div>
+    )
+}
+
+/* Mobile / tablet: plain frame */
 function StaticFrame({ className = '', zoom, ...media }) {
     return (
         <div className={`group relative overflow-hidden bg-obsidian ${className}`}>
@@ -111,7 +120,7 @@ function StaticFrame({ className = '', zoom, ...media }) {
     )
 }
 
-/* Desktop: wipe reveal on scroll + slight parallax drift */
+/* Desktop: wipe reveal on scroll + parallax */
 function AnimatedFrame({ className = '', from = 'left', delay = 0, zoom = 1.18, ...media }) {
     const ref = useRef(null)
     const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] })
@@ -140,232 +149,196 @@ function MediaFrame(props) {
     return animate ? <AnimatedFrame {...props} /> : <StaticFrame {...props} />
 }
 
-/* Two image cards (women + men). Staggered and interactive on desktop only. */
-function PairFrame({ s, pair, main, aspect }) {
-    const animate = useAnimate()
-    const [hover, setHover] = useState(null)
+/* Resolves to image frame or placeholder */
+function Visual({ s, from, single }) {
+    const media = mediaFor(s)
+    const [ok, setOk] = useState(true)
+
+    if (!media?.main) return <ImagePlaceholder s={s} className={single} />
 
     return (
-        <div
-            className="grid grid-cols-2 items-start gap-3 sm:gap-5"
-            onMouseLeave={() => setHover(null)}
-        >
-            {pair.map((card, i) => {
-                const dimmed = animate && hover !== null && hover !== i
-                const labelMotion = animate
-                    ? {
-                        initial: { opacity: 0, y: 10 },
-                        whileInView: { opacity: 1, y: 0 },
-                        viewport: VIEWPORT,
-                        transition: { duration: 0.6, delay: 0.7 + i * 0.18, ease: EASE },
-                    }
-                    : {}
-                return (
-                    <div
-                        key={card.label}
-                        onMouseEnter={() => setHover(i)}
-                        className={`relative transition-all duration-500 active:scale-[0.98] lg:active:scale-100 ${i === 1 ? 'lg:mt-14' : ''
-                            } ${dimmed ? 'opacity-50 lg:scale-[0.97]' : ''}`}
-                    >
-                        <MediaFrame
-                            src={card.src}
-                            fallback={main}
-                            alt={`${s.title} ${card.label}`}
-                            from="bottom"
-                            delay={i * 0.18}
-                            className={aspect}
-                        />
-                        <motion.span
-                            {...labelMotion}
-                            className="absolute bottom-0 left-0 z-20 flex items-center gap-2 bg-obsidian/90 px-3 py-2 text-[10px] font-medium tracking-wide text-ivory sm:px-4 sm:py-2.5 sm:text-xs"
-                        >
-                            <span aria-hidden className="h-1.5 w-1.5 bg-champagne" />
-                            {card.label}
-                        </motion.span>
-                    </div>
-                )
-            })}
+        <div className="relative">
+            <MediaFrame
+                name={s.img}
+                src={media?.main}
+                alt={s.title}
+                from={from}
+                className={single}
+                fallback={null}
+            />
+            {/* Invisible checker – if the image fails, swap to placeholder */}
+            <img
+                src={media.main}
+                alt=""
+                className="hidden"
+                onError={() => setOk(false)}
+            />
+            {!ok && <ImagePlaceholder s={s} className={`absolute inset-0 ${single}`} />}
         </div>
     )
 }
 
-/* Chooses one card or two cards depending on the service */
-function Visual({ s, from, single, pairAspect }) {
-    const media = mediaFor(s)
-    if (media?.pair) return <PairFrame s={s} pair={media.pair} main={media.main} aspect={pairAspect} />
-    return <MediaFrame name={s.img} src={media?.main} alt={s.title} from={from} className={single} />
+/* ---------- Service point chips ---------- */
+function PointChip({ children, dark = true }) {
+    const cls = dark
+        ? 'border-ivory/20 text-ivory/90 hover:border-champagne hover:text-champagne hover:bg-champagne/10'
+        : 'border-obsidian/15 text-obsidian/85 hover:border-obsidian hover:bg-obsidian hover:text-ivory'
+    return (
+        <li className={`border rounded-full px-3.5 py-1.5 text-[11px] tracking-wide transition-all duration-300 active:scale-95 sm:text-xs ${cls}`}>
+            {children}
+        </li>
+    )
 }
 
-/* Eyebrow, title, blurb, chips and button. Fades up in sequence on desktop only. */
-function Copy({ s, index = 0, dark = false, split = false, className = '' }) {
-    const animate = useAnimate()
+/* Service copy block */
+function Copy({ s, index = 0, dark = true, split = false, className = '' }) {
     const heading = dark ? 'text-ivory' : 'text-obsidian'
     const body = dark ? 'text-ivory/85' : 'text-obsidian/80'
-    const chip = dark
-        ? 'border-ivory/25 text-ivory/90 hover:border-champagne hover:text-champagne'
-        : 'border-obsidian/20 text-obsidian/85 hover:border-obsidian hover:bg-obsidian hover:text-ivory'
     const eyebrow = dark ? 'text-champagne' : 'text-obsidian/75'
 
-    const wrapMotion = animate
-        ? { variants: group, initial: 'hidden', whileInView: 'show', viewport: VIEWPORT }
-        : {}
-    const itemMotion = animate ? { variants: item } : {}
+    /* Show up to 6 points as chips + remaining as a collapsed "more" */
+    const visiblePoints = (s.points || []).slice(0, 6)
+    const extraPoints = (s.points || []).slice(6)
+    const [showAll, setShowAll] = useState(false)
 
     const head = (
         <div>
-            <motion.p
-                {...itemMotion}
-                className={`mb-3 flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.25em] ${eyebrow}`}
-            >
+            <p className={`mb-2.5 flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.25em] ${eyebrow}`}>
                 <span>{String(index + 1).padStart(2, '0')}</span>
                 <span aria-hidden className="h-px w-8 bg-current opacity-60" />
                 <span>Service</span>
-            </motion.p>
-            <motion.h2
-                {...itemMotion}
-                className={`font-serif text-3xl leading-[1.08] sm:text-4xl lg:text-5xl xl:text-6xl ${heading}`}
-            >
+            </p>
+            <h2 className={`font-serif text-2xl leading-[1.12] sm:text-3xl md:text-3xl lg:text-4xl xl:text-5xl ${heading}`}>
                 {s.title}
-            </motion.h2>
+            </h2>
         </div>
     )
 
     const rest = (
         <>
-            <motion.p
-                {...itemMotion}
-                className={`mt-4 max-w-md text-[15px] leading-relaxed sm:text-base ${body} ${split ? 'md:mt-6' : 'lg:mt-5'}`}
-            >
+            <p className={`mt-3.5 max-w-md text-sm leading-relaxed sm:text-[15px] lg:text-base ${body} ${split ? 'md:mt-5' : 'lg:mt-4'}`}>
                 {s.blurb}
-            </motion.p>
-            <motion.ul {...itemMotion} className="mt-5 flex flex-wrap gap-2">
-                {(s.points || []).slice(0, 4).map((p) => (
-                    <li
-                        key={p}
-                        className={`border px-3 py-1.5 text-[11px] tracking-wide transition-colors duration-300 active:scale-95 sm:text-xs ${chip}`}
-                    >
-                        {p}
-                    </li>
+            </p>
+            <ul className="mt-4 flex flex-wrap gap-2">
+                {visiblePoints.map((p) => (
+                    <PointChip key={p} dark={dark}>{p}</PointChip>
                 ))}
-            </motion.ul>
-            <motion.div {...itemMotion} className="mt-6 sm:mt-8">
+                {showAll && extraPoints.map((p) => (
+                    <PointChip key={p} dark={dark}>{p}</PointChip>
+                ))}
+            </ul>
+            {extraPoints.length > 0 && (
+                <button
+                    type="button"
+                    onClick={() => setShowAll(!showAll)}
+                    className={`mt-3 text-xs font-medium tracking-wide transition-colors ${dark ? 'text-champagne hover:text-lime' : 'text-obsidian/60 hover:text-obsidian'}`}
+                >
+                    {showAll ? '− Show less' : `+ ${extraPoints.length} more services`}
+                </button>
+            )}
+            <div className="mt-6 flex flex-wrap items-center gap-3 sm:mt-7">
                 <Link
                     to={`/services/${s.slug}`}
                     className="btn btn-gold w-full justify-center sm:w-auto"
                 >
                     Explore {s.title}
                 </Link>
-            </motion.div>
+                <a
+                    href={waLink(`Hello Aora Luxe, I would like to enquire about ${s.title}.`)}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={`inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full border px-5 py-2.5 text-xs font-medium uppercase tracking-wider transition-all duration-300 active:scale-95 ${
+                        dark
+                            ? 'border-ivory/25 text-ivory hover:border-champagne hover:text-champagne'
+                            : 'border-obsidian/25 text-obsidian hover:border-obsidian hover:bg-obsidian hover:text-ivory'
+                    }`}
+                >
+                    <MessageCircle size={14} /> WhatsApp Enquire
+                </a>
+            </div>
         </>
     )
 
     return (
-        <motion.div
-            {...wrapMotion}
-            className={`${split ? 'md:grid md:grid-cols-2 md:items-start md:gap-10 lg:gap-16' : ''} ${className}`}
-        >
+        <div className={`${split ? 'md:grid md:grid-cols-2 md:items-start md:gap-8 lg:gap-14' : ''} ${className}`}>
             {head}
             {split ? <div>{rest}</div> : rest}
-        </motion.div>
+        </div>
     )
 }
 
-/* ---------- Four layouts (stack cleanly on mobile / tablet) ---------- */
+/* ---------- Layouts ---------- */
 
-/* 1. Image with a dark text card overlapping it (overlap only on desktop) */
+/* 1. Hair Services, Makeup & Bridal (bg-ivory sections) */
 function OverlapLayout({ s, index }) {
     return (
-        <div className="grid items-center lg:grid-cols-12">
-            <div className="lg:col-span-7">
-                <Visual s={s} from="left" single="aspect-[4/3]" pairAspect="aspect-[4/5] lg:aspect-[3/4]" />
+        <div className="grid items-center gap-6 md:grid-cols-12 md:gap-8 lg:gap-12 xl:gap-16">
+            <div className="relative md:col-span-6 lg:col-span-7">
+                <Visual s={s} from="left" single="aspect-[4/3] sm:aspect-[16/10] md:aspect-[4/3] lg:aspect-[16/11] rounded-2xl md:rounded-3xl shadow-xl lg:shadow-2xl" />
             </div>
             <Copy
                 s={s}
                 index={index}
                 dark
-                className="relative z-10 -mt-8 mx-3 bg-obsidian p-6 shadow-2xl sm:mx-8 sm:p-10 lg:col-span-6 lg:col-start-7 lg:mx-0 lg:mt-0 lg:-ml-20 lg:p-12"
+                className="mt-2 md:mt-0 rounded-2xl md:rounded-3xl bg-obsidian p-6 sm:p-8 lg:p-10 xl:p-12 shadow-2xl border border-champagne/25 md:col-span-6 lg:col-span-5"
             />
         </div>
     )
 }
 
-/* 2. Portrait image(s) with an offset outline frame, text on the left on desktop */
+/* 2. Men's Grooming, Waxing & Threading (bg-obsidian sections) */
 function PortraitLayout({ s, index }) {
-    const hasPair = !!mediaFor(s)?.pair
     return (
-        <div className="grid items-center gap-8 lg:grid-cols-12 lg:gap-12">
-            <Copy s={s} index={index} dark className="order-2 lg:order-1 lg:col-span-5" />
-            <div className="relative order-1 lg:order-2 lg:col-span-6 lg:col-start-7">
-                {!hasPair && (
-                    <div
-                        aria-hidden
-                        className="absolute inset-0 hidden translate-x-4 translate-y-4 border border-champagne/50 sm:block"
-                    />
-                )}
+        <div className="grid items-center gap-6 md:grid-cols-12 md:gap-8 lg:gap-12 xl:gap-16">
+            <Copy
+                s={s}
+                index={index}
+                dark
+                className="order-2 md:order-1 mt-2 md:mt-0 rounded-2xl md:rounded-3xl bg-charcoal/70 p-6 sm:p-8 lg:p-10 xl:p-12 shadow-2xl border border-ivory/10 md:col-span-6 lg:col-span-5"
+            />
+            <div className="relative order-1 md:order-2 md:col-span-6 lg:col-span-7">
+                <div aria-hidden className="absolute inset-0 hidden translate-x-3 translate-y-3 md:block rounded-3xl border border-champagne/30 pointer-events-none" />
                 <div className="relative z-10">
-                    <Visual
-                        s={s}
-                        from="right"
-                        single="aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/5]"
-                        pairAspect="aspect-[4/5] lg:aspect-[3/4]"
-                    />
+                    <Visual s={s} from="right" single="aspect-[4/3] sm:aspect-[16/10] md:aspect-[4/3] lg:aspect-[16/11] rounded-2xl md:rounded-3xl shadow-xl lg:shadow-2xl" />
                 </div>
             </div>
         </div>
     )
 }
 
-/* 3. Wide banner, title and details split underneath (two columns from tablet up) */
+/* 3. Skin Care, Massage (bg-ivory sections) */
 function WideLayout({ s, index }) {
     return (
-        <div>
-            <Visual
+        <div className="grid items-center gap-6 md:grid-cols-12 md:gap-8 lg:gap-12 xl:gap-16">
+            <div className="relative md:col-span-6 lg:col-span-7">
+                <Visual s={s} from="left" single="aspect-[4/3] sm:aspect-[16/10] md:aspect-[4/3] lg:aspect-[16/11] rounded-2xl md:rounded-3xl shadow-xl lg:shadow-2xl" />
+            </div>
+            <Copy
                 s={s}
-                from="bottom"
-                single="aspect-[4/3] sm:aspect-[16/9] lg:aspect-[21/9]"
-                pairAspect="aspect-[4/5] sm:aspect-[4/3]"
+                index={index}
+                dark
+                className="mt-2 md:mt-0 rounded-2xl md:rounded-3xl bg-obsidian p-6 sm:p-8 lg:p-10 xl:p-12 shadow-2xl border border-champagne/25 md:col-span-6 lg:col-span-5"
             />
-            <Copy s={s} index={index} split className={mediaFor(s)?.pair ? 'mt-8 lg:mt-20' : 'mt-8 lg:mt-10'} />
         </div>
     )
 }
 
-/* 4. Large image plus a smaller detail crop under the text (crop shown on desktop only) */
+/* 4. Nail Services (bg-obsidian sections) */
 function DuoLayout({ s, index }) {
-    const media = mediaFor(s)
-    const accent = ACCENT_PHOTOS[index % ACCENT_PHOTOS.length]
     return (
-        <div className="grid items-start gap-8 lg:grid-cols-12 lg:gap-12">
-            <div className="lg:col-span-6">
-                <Visual
+        <div className="grid items-center gap-6 md:grid-cols-12 md:gap-8 lg:gap-12 xl:gap-16">
+            <div className="order-2 md:order-1 md:col-span-6 lg:col-span-5 mt-2 md:mt-0">
+                <Copy
                     s={s}
-                    from="left"
-                    single="aspect-[4/3] sm:aspect-[16/10] lg:aspect-[4/5]"
-                    pairAspect="aspect-[4/5] lg:aspect-[3/4]"
+                    index={index}
+                    dark
+                    className="rounded-2xl md:rounded-3xl bg-charcoal/70 p-6 sm:p-8 lg:p-10 xl:p-12 shadow-2xl border border-ivory/10"
                 />
             </div>
-            <div className="lg:col-span-5 lg:col-start-8 lg:pt-10">
-                <Copy s={s} index={index} dark />
-                <div className="hidden lg:block">
-                    {media?.main ? (
-                        <MediaFrame
-                            src={media.main}
-                            alt={`${s.title} detail`}
-                            from="bottom"
-                            delay={0.15}
-                            zoom={1.6}
-                            position="center 25%"
-                            className="mt-10 aspect-[16/10]"
-                        />
-                    ) : (
-                        <MediaFrame
-                            name={accent}
-                            alt={`${s.title} detail`}
-                            from="bottom"
-                            delay={0.15}
-                            className="mt-10 aspect-[16/10]"
-                        />
-                    )}
+            <div className="relative order-1 md:order-2 md:col-span-6 lg:col-span-7">
+                <div aria-hidden className="absolute inset-0 hidden -translate-x-3 translate-y-3 md:block rounded-3xl border border-champagne/30 pointer-events-none" />
+                <div className="relative z-10">
+                    <Visual s={s} from="right" single="aspect-[4/3] sm:aspect-[16/10] md:aspect-[4/3] lg:aspect-[16/11] rounded-2xl md:rounded-3xl shadow-xl lg:shadow-2xl" />
                 </div>
             </div>
         </div>
@@ -380,7 +353,6 @@ function Intro() {
     const [active, setActive] = useState(SERVICES[0]?.slug)
     const barRef = useRef(null)
 
-    /* Highlight the chip of the section currently on screen */
     useEffect(() => {
         const els = SERVICES.map((s) => document.getElementById(s.slug)).filter(Boolean)
         if (!els.length) return
@@ -392,7 +364,6 @@ function Intro() {
         return () => io.disconnect()
     }, [])
 
-    /* Keep the active chip centered in the scrollable bar (mobile) */
     useEffect(() => {
         const bar = barRef.current
         const chip = bar?.querySelector(`[data-slug="${active}"]`)
@@ -413,14 +384,15 @@ function Intro() {
     return (
         <>
             <section className="bg-ivory px-5 pb-6 pt-10 sm:pb-8 sm:pt-14">
-                <p className="mx-auto max-w-7xl font-serif text-xl leading-snug text-obsidian sm:text-2xl lg:max-w-3xl lg:text-3xl lg:mx-0 lg:ml-[max(0px,calc((100%-80rem)/2))]">
-                    Choose one service, or combine them for a complete look in a single visit. Everything here is for men and women.
-                </p>
+                <div className="mx-auto max-w-7xl">
+                    <p className="max-w-3xl font-serif text-xl leading-snug text-obsidian sm:text-2xl lg:text-3xl">
+                        Choose one service or combine them for a complete look in a single visit. Everything here is for men and women.
+                    </p>
+                </div>
             </section>
 
             <div
-                className="sticky z-30 border-y border-obsidian/10 bg-ivory/90 backdrop-blur"
-                style={{ top: STICKY_TOP }}
+                className="sticky top-[86px] sm:top-[92px] md:top-[98px] z-30 border-y border-obsidian/10 bg-ivory/90 backdrop-blur"
             >
                 <nav
                     ref={barRef}
@@ -436,7 +408,7 @@ function Intro() {
                                 href={`#${s.slug}`}
                                 onClick={(e) => jump(e, s.slug)}
                                 aria-current={on ? 'true' : undefined}
-                                className={`shrink-0 border px-4 py-2 text-xs font-medium tracking-wide transition-colors duration-300 active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-obsidian ${on
+                                className={`shrink-0 rounded-full border px-4 py-2 text-xs font-medium tracking-wide transition-colors duration-300 active:scale-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-obsidian ${on
                                     ? 'border-obsidian bg-obsidian text-champagne'
                                     : 'border-obsidian/25 text-obsidian hover:bg-obsidian hover:text-champagne'
                                     }`}
@@ -457,9 +429,9 @@ function ServiceBlock({ s, index }) {
     return (
         <section
             id={s.slug}
-            className={`scroll-mt-32 overflow-hidden py-10 sm:py-14 lg:py-24 ${dark ? 'bg-obsidian' : 'bg-ivory'}`}
+            className={`relative scroll-mt-32 overflow-hidden py-10 sm:py-14 lg:py-24 ${dark ? 'bg-obsidian' : 'bg-ivory'}`}
         >
-            <div className="mx-auto max-w-7xl px-5">
+            <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
                 <Layout s={s} index={index} />
             </div>
         </section>
@@ -489,7 +461,7 @@ function ClosingCTA() {
                     </a>
                     <Link
                         to="/contact"
-                        className="inline-flex items-center justify-center border border-obsidian/30 px-6 py-3 text-[11px] font-medium uppercase tracking-[0.18em] text-obsidian transition-colors hover:bg-obsidian hover:text-ivory active:scale-95"
+                        className="inline-flex items-center justify-center rounded-full border border-obsidian/30 px-6 py-3 text-[11px] font-medium uppercase tracking-[0.18em] text-obsidian transition-colors hover:bg-obsidian hover:text-ivory active:scale-95"
                     >
                         Book an Appointment
                     </Link>

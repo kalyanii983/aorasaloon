@@ -15,10 +15,13 @@ const PILLARS = [
 ]
 
 const SERVICES = [
-    { id: 'hair', label: 'Hair', img: '/hair.png', title: 'Hair styling and colour', text: 'Precision cuts, blow-dries, colour, highlights and treatments tailored to your hair type and routine.', points: ['Cuts and styling', 'Colour and highlights', 'Smoothing and spa treatments'] },
-    { id: 'beauty', label: 'Beauty', img: '/beauty.png', title: 'Beauty and skincare', text: 'Facials, cleanups and grooming rituals that leave your skin fresh, even and glowing.', points: ['Facials and cleanups', 'Waxing and threading', 'Skin-first consultations'] },
-    { id: 'nails', label: 'Nails', img: '/nail.png', title: 'Nail art and care', text: 'From a clean, simple manicure to detailed custom nail art for weddings and parties.', points: ['Manicure and pedicure', 'Gel and extensions', 'Custom nail art'] },
-    { id: 'makeup', label: 'Makeup', img: '/makeup.png', title: 'Makeup', text: 'Soft everyday looks to full occasion makeup, planned with you and finished to last.', points: ['Party and occasion makeup', 'Bridal and engagement', 'Trial sessions'] },
+    { id: 'hair', label: 'Hair', img: '/hair.png', title: 'Hair Services', text: 'From precision cuts to global colour transformations — every hair service shaped around your texture, face and lifestyle.', points: ['Haircut for Men & Women', 'Hair Colouring & Global Colour', 'Smoothening & Keratin'] },
+    { id: 'mens-grooming', label: 'Men\'s Grooming', img: '/services/mens-grooming.jpg', title: 'Men\'s Grooming', text: 'Sharp cuts, clean fades and tailored grooming — designed for the modern man who values precision.', points: ['Men\'s Haircut', 'Beard Trimming & Styling', 'Facial & Cleanup'] },
+    { id: 'skin-care', label: 'Skin Care', img: '/beauty.png', title: 'Skin Care & Facial', text: 'Radiant, healthy skin starts here. Our facials and treatments are customised to your skin type.', points: ['Classic & Luxury Facial', 'Detan & Polishing', 'Anti-Ageing Facial'] },
+    { id: 'nails', label: 'Nails', img: '/nail.png', title: 'Nail Services', text: 'From classic manicures to intricate nail art — express your style down to the fingertips.', points: ['Manicure & Pedicure', 'Gel & Extensions', 'Custom Nail Art'] },
+    { id: 'makeup', label: 'Makeup', img: '/makeup.png', title: 'Makeup & Bridal', text: 'Flawless makeup for every occasion — from soft party glam to breathtaking bridal looks.', points: ['Party & Engagement Makeup', 'Bridal & Reception Makeup', 'Saree Draping'] },
+    { id: 'waxing', label: 'Waxing', img: '/services/waxing-threading.jpg', title: 'Waxing & Threading', text: 'Smooth, hair-free skin with gentle techniques — comfort and hygiene are never negotiable.', points: ['Full Body Waxing', 'Rica Wax', 'Eyebrow Threading'] },
+    { id: 'massage', label: 'Massage', img: '/services/massage-relaxation.jpg', title: 'Massage & Relaxation', text: 'Unwind with therapeutic massages designed to melt away stress and leave you renewed.', points: ['Head & Hair Oil Massage', 'Neck & Shoulder Massage', 'Relaxation Treatments'] },
 ]
 
 const STEPS = [
@@ -152,12 +155,13 @@ function Story() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8, delay: 0.7, ease: EASE }}
-                        className="absolute right-0 top-10 z-10 flex items-center gap-3 rounded-2xl border border-ivory/15 bg-obsidian/60 px-4 py-3 backdrop-blur-xl"
+                        className="absolute right-0 top-10 z-10 flex items-center gap-3.5 rounded-2xl border border-ivory/15 bg-obsidian/75 px-4 py-3 backdrop-blur-xl shadow-xl"
                     >
-                        <span className="relative flex h-2 w-2">
-                            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-lime opacity-70" />
-                            <span className="relative inline-flex h-2 w-2 rounded-full bg-lime" />
-                        </span>
+                        <img
+                            src="/logo1.jpeg"
+                            alt="Aora Luxe Logo"
+                            className="h-10 w-10 rounded-full object-cover ring-2 ring-lime/40 shadow-sm"
+                        />
                         <div>
                             <p className="font-serif text-lg leading-none text-ivory">Aora Luxe</p>
                             <p className="label mt-1 text-[9px] tracking-[0.2em] text-ivory/80">Yelahanka, Bengaluru</p>

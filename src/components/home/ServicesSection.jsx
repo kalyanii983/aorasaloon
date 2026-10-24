@@ -70,11 +70,14 @@ export default function ServicesSection() {
     <section className="border-t border-ivory/10 bg-obsidian py-20 lg:py-32">
       <div className="mx-auto max-w-[1500px] px-5 sm:px-8 lg:px-14">
         <Reveal>
-          <p className="label text-[11px] tracking-[0.28em] text-champagne">Signature services</p>
-          <h2 className="mt-4 font-serif text-4xl text-ivory sm:text-5xl lg:text-6xl">Crafted around <span className="italic text-champagne">you.</span></h2>
+          <p className="label text-[11px] tracking-[0.28em] text-champagne">Our services</p>
+          <h2 className="mt-4 font-serif text-4xl text-ivory sm:text-5xl lg:text-6xl">Everything you need, <span className="italic text-champagne">under one roof.</span></h2>
         </Reveal>
         <div className="mt-12 grid grid-cols-1 gap-x-5 gap-y-8 min-[480px]:grid-cols-2 lg:mt-14 lg:grid-cols-4 lg:gap-y-12">
-          {SERVICES.map((s, i) => <ServiceCard key={s.slug} s={s} i={i} />)}
+          {SERVICES.slice(0, 4).map((s, i) => <ServiceCard key={s.slug} s={s} i={i} />)}
+        </div>
+        <div className="mt-8 grid grid-cols-1 gap-x-5 gap-y-8 min-[480px]:grid-cols-2 lg:grid-cols-3 lg:gap-y-12">
+          {SERVICES.slice(4).map((s, i) => <ServiceCard key={s.slug} s={s} i={i + 4} />)}
         </div>
       </div>
     </section>
